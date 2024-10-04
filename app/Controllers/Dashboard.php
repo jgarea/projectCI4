@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\PostsModel;
 use App\Models\CategoriesModel;
+use App\Models\NewsletterModel;
 
 class Dashboard extends BaseController
 {
@@ -109,6 +110,15 @@ class Dashboard extends BaseController
 
     public function category(){
         $this->loadViews("category");
+    }
+
+    public function add_newsletter(){
+        if(isset($_POST['email'])){
+            $newslettermodel=new NewsletterModel();
+            $newslettermodel->insert($_POST);
+        }else{
+            echo "hola";
+        }
     }
 
 

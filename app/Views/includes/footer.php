@@ -157,13 +157,13 @@
                     enim exercitationem ipsam. Culpa consequatur occaecati.</p>
 
                 <div class="subscribe-form">
-                    <form id="mc-form" class="group" novalidate="true">
+                    <form id="newsletter-form" method="post" class="group" novalidate="true">
 
-                        <input type="email" value="" name="EMAIL" class="email" id="mc-email"
+                        <input type="email" value="" name="email" class="email" id="newsletter-input"
                             placeholder="Email Address" required="">
 
-                        <input type="submit" name="subscribe" value="Send">
-
+                        <!-- <input type="submit" name="subscribe" value="Send"> -->
+                        <div class="btn" id="sendNewsletter">Send</div>
                         <label for="mc-email" class="subscribe-message"></label>
 
                     </form>
@@ -243,6 +243,19 @@ if ($view!="uploadPost") {
 <?php
 }
 ?>
+
+
+<script type="text/javascript">
+$("#sendNewsletter").click(function () {
+    console.log("se ha enviado");
+
+    $.post("<?= base_url() ?>public/dashboard/add_newsletter",{}).done(function (data) {
+        console.log("Enviado post");
+        console.log(data);
+     });
+});
+</script>
+
 
 </body>
 
