@@ -115,9 +115,24 @@ class Dashboard extends BaseController
     public function add_newsletter(){
         if(isset($_POST['email'])){
             $newslettermodel=new NewsletterModel();
-            $newslettermodel->insert($_POST);
-        }else{
-            echo "hola";
+
+            $emails=$newslettermodel->where("email",$_POST['email'])->findAll();
+            //print_r($emails);
+            // $id=$newslettermodel->insert($_POST);
+
+            if ($emails) {
+                echo "E-mail already exists";
+            }else{
+                $_POST['added_at']=date('Y-m-d');
+                $id=$newslettermodel->insert($_POST);
+                echo "Welcome to our Newsletter";
+            }
+
+            // if(isset($id)){
+            //     echo "Welcome to our Newsletter";
+            // }else{
+            //     echo "E-mail already exists";
+            // }
         }
     }
 

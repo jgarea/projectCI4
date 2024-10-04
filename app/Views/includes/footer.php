@@ -164,7 +164,7 @@
 
                         <!-- <input type="submit" name="subscribe" value="Send"> -->
                         <div class="btn" id="sendNewsletter">Send</div>
-                        <label for="mc-email" class="subscribe-message"></label>
+                        <label for="mc-email" class="subscribe-message" style="color: white;"></label>
 
                     </form>
                 </div>
@@ -248,10 +248,11 @@ if ($view!="uploadPost") {
 <script type="text/javascript">
 $("#sendNewsletter").click(function () {
     console.log("se ha enviado");
-
-    $.post("<?= base_url() ?>public/dashboard/add_newsletter",{}).done(function (data) {
+    let inputemail=$("#newsletter-input").val();
+    $.post("<?= base_url() ?>public/dashboard/add_newsletter",{email:inputemail}).done(function (data) {
         console.log("Enviado post");
         console.log(data);
+        $(".subscribe-message").html(data);
      });
 });
 </script>
