@@ -152,6 +152,20 @@ class Dashboard extends BaseController
         
     }
 
+    public function post($slug=null,$id=null){
+
+        if($slug && $id){
+            $postsmodel=new PostsModel();
+
+            $post=$postsmodel->where("id",$id)->findAll();
+
+            $data['post']=$post;
+            $categorymodel=new CategoriesModel();
+            $data['categories']=$categorymodel->where("id",$post[0]['category'])->findAll();
+            $this->loadViews("post",$data);
+        }
+    }
+
 
     // public function index()
     // {
