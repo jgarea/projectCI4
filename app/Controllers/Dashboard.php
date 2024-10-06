@@ -5,6 +5,7 @@ use App\Models\UsersModel;
 use App\Models\PostsModel;
 use App\Models\CategoriesModel;
 use App\Models\NewsletterModel;
+use App\Models\CommentsModel;
 
 class Dashboard extends BaseController
 {
@@ -155,6 +156,56 @@ class Dashboard extends BaseController
     public function post($slug=null,$id=null){
 
         if($slug && $id){
+            $commentsmodel= new CommentsModel();
+            $data['comments']=$commentsmodel->where("post_id",$id)->findAll();
+            $data['countcomments']=$commentsmodel->where("post_id",$id)->countAll();
+            if($_POST){
+               
+                helper(["url","form"]);
+
+                $validation= \Config\Services::validation();
+
+                $validation->setRules([
+
+                    "cName"=>"required",
+                    "cEmail"=>"required",
+                    "cMessage"=>"required|min_length[20]"
+
+                ],[
+                    "cName"=>[
+                        "required"=>"Name is required, please write your name"
+                    ],
+                    "cEmail"=>[
+                        "required"=>"Email is required, please write your Email"
+                    ],
+                    "cMessage"=>[
+                        "required"=>"Comment is required, please write your comment",
+                        "min_length"=>"Min 20 characters please"
+                    ],
+
+                ]
+            
+                );
+                if(!$validation->withRequest($this->request)->run()){
+                    echo "error";
+                    $data['error']=true;
+                }else{
+                    echo "success";
+                    //$_POST['post_id']=$id;
+
+                    $arraycomment=[
+                        "name"=>$_POST['cName'],
+                        "email"=>$_POST['cEmail'],
+                        "comment"=>$_POST['cMessage'],
+                        "post_id"=>$id
+                    ];
+
+                    $commentsmodel->insert($arraycomment);
+                }
+
+            }
+
+
             $postsmodel=new PostsModel();
 
             $post=$postsmodel->where("id",$id)->findAll();
@@ -165,6 +216,8 @@ class Dashboard extends BaseController
             $this->loadViews("post",$data);
         }
     }
+
+
 
 
     // public function index()
