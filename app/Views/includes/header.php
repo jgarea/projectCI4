@@ -119,7 +119,7 @@
                             $result=$query->getResult();
 
                             foreach ($result as $r) {
-                                echo '<li><a href="'.base_url().'dashboard/category/'.$r->id.'">'.$r->name.'</a></li>';
+                                echo '<li><a href="'.base_url().'public/dashboard/category/'.$r->id.'">'.$r->name.'</a></li>';
                             }
 
                         ?>

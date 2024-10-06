@@ -109,8 +109,20 @@ class Dashboard extends BaseController
     }
 
 
-    public function category(){
-        $this->loadViews("category");
+    public function category($id=null){
+        // $data['view']="category";
+        // $this->loadViews("category",$data);
+        $postmodel=new PostsModel();
+        $categorymodel=new CategoriesModel();
+        $data['category']=$categorymodel->where("id",$id)->findAll();
+        $data['posts']=$postmodel->where("category",$id)->findAll();
+
+        // print_r($data['category']);
+        // print_r($data['posts']);
+
+
+        echo view("category",$data);
+        //echo $id;
     }
 
     public function add_newsletter(){
